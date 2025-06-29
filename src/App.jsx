@@ -1,14 +1,35 @@
-import { useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Header from "./components/Header"
 import AddTodo from "./components/AddTodo"
 import TodoItem from "./components/TodoItem"
 
 function App() {
-  const [todos, setTodos] = useState([
-    { id: 1, title: "Alışveriş yap" },
-    { id: 2, title: "Kod yaz" },
-    { id: 3, title: "Kitap oku" },
-  ])
+  const [todos, setTodos] = useState([])
+
+  // ✅ Bu flag ilk yüklemeyi kontrol etmek için kullanılır
+  const isInitialLoad = useRef(true)
+
+  // 📥 İlk yüklemede localStorage’tan verileri al
+  useEffect(() => {
+    const stored = localStorage.getItem("todos")
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored)
+        setTodos(parsed)
+      } catch (err) {
+        console.error("LocalStorage JSON parse hatası:", err)
+      }
+    }
+  }, [])
+
+  // 📤 todos değiştiğinde localStorage’a yaz, ama ilk seferi atla
+  useEffect(() => {
+    if (isInitialLoad.current) {
+      isInitialLoad.current = false
+      return
+    }
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos])
 
   const handleAddTodo = (title) => {
     const newTodo = {
@@ -20,14 +41,15 @@ function App() {
   }
 
   const handleDeleteTodo = (id) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id)
-    setTodos(updatedTodos)
+    const updated = todos.filter((todo) => todo.id !== id)
+    setTodos(updated)
   }
 
   const handleToggleComplete = (id) => {
-    const updatedTodos = todos.map((todo) =>
-    todo.id === id ? { ...todo, completed: !todo.completed } : todo)
-    setTodos(updatedTodos)
+    const updated = todos.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    )
+    setTodos(updated)
   }
 
   return (
