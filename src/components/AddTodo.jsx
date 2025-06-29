@@ -1,11 +1,10 @@
 import { useState } from "react";
 
-function AddTodo({ onAdd }) {
+function AddTodo({ onAdd, error }) {
   const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault(); // Sayfa yenilenmesin
-    if (inputValue.trim() === "") return; // Boş görev eklenmesin
     onAdd(inputValue); // Ana bileşene görev gönder
     setInputValue(""); // inputu temizle
   };
@@ -25,6 +24,9 @@ function AddTodo({ onAdd }) {
       >
         Ekle
       </button>
+      {error && (
+        <p className="text-red-500 text-sm mt-1 w-full">{error}</p>
+      )}
     </form>
   );
 }
