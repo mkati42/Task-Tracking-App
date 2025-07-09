@@ -5,7 +5,22 @@ import AddTodo from "./components/AddTodo"
 import TodoItem from "./components/TodoItem"
 
 function App() {
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState([
+    { id: 1, title: "JSX ve Component yapısı", completed: true },
+    { id: 2, title: "Props ile veri aktarımı", completed: true },
+    { id: 3, title: "useState ile state yönetimi", completed: true },
+    { id: 4, title: "useEffect ile lifecycle kontrolü", completed: true },
+    { id: 5, title: "useRef ile ilk render kontrolü", completed: true },
+    { id: 6, title: "localStorage ile veri kaydetme", completed: true },
+    { id: 7, title: "filter/map ile liste işlemleri", completed: true },
+    { id: 8, title: "Boş görev validasyonu", completed: true },
+    { id: 9, title: "Filtreleme (tamamlanan, tamamlanmayan)", completed: true },
+    { id: 10, title: "Animasyonlar (Framer Motion)", completed: false },
+    { id: 11, title: "Context API", completed: false },
+    { id: 12, title: "Custom Hook yazımı", completed: false },
+    { id: 13, title: "Reducer ve useReducer", completed: false },
+    { id: 14, title: "Testing (Jest, React Testing Library)", completed: false }
+  ])
   const [filter, setFilter] = useState("all")
   const [error, setError] = useState("")
 
@@ -15,13 +30,31 @@ function App() {
   // 📥 İlk yüklemede localStorage’tan verileri al
   useEffect(() => {
     const stored = localStorage.getItem("todos")
-    if (stored) {
+    if (stored || 0) {
       try {
         const parsed = JSON.parse(stored)
         setTodos(parsed)
       } catch (err) {
         console.error("LocalStorage JSON parse hatası:", err)
       }
+    }
+    else{
+      setTodos([
+        { id: 1, title: "JSX ve Component yapısı", completed: true },
+        { id: 2, title: "Props ile veri aktarımı", completed: true },
+        { id: 3, title: "useState ile state yönetimi", completed: true },
+        { id: 4, title: "useEffect ile lifecycle kontrolü", completed: true },
+        { id: 5, title: "useRef ile ilk render kontrolü", completed: true },
+        { id: 6, title: "localStorage ile veri kaydetme", completed: true },
+        { id: 7, title: "filter/map ile liste işlemleri", completed: true },
+        { id: 8, title: "Boş görev validasyonu", completed: true },
+        { id: 9, title: "Filtreleme (tamamlanan, tamamlanmayan)", completed: true },
+        { id: 10, title: "Animasyonlar (Framer Motion)", completed: false },
+        { id: 11, title: "Context API", completed: false },
+        { id: 12, title: "Custom Hook yazımı", completed: false },
+        { id: 13, title: "Reducer ve useReducer", completed: false },
+        { id: 14, title: "Testing (Jest, React Testing Library)", completed: false }
+      ])
     }
   }, [])
 

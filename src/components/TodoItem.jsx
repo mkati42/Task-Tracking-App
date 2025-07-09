@@ -1,4 +1,35 @@
-function TodoItem({ id, title, completed, onDelete, onToggle }) {
+import { useTodo } from "../context/TodoContext"
+
+function TodoItem({ id, title, completed }) {
+  const { deleteTodo, toggleComplete } = useTodo()
+
+  return (
+    <li className="flex items-center justify-between bg-white p-2 rounded shadow">
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={completed}
+          onChange={() => toggleComplete(id)}
+        />
+        <span className={completed ? "line-through text-gray-500" : ""}>
+          {title}
+        </span>
+      </label>
+      <button
+        onClick={() => deleteTodo(id)}
+        className="text-red-500 hover:text-red-700"
+      >
+        Sil
+      </button>
+    </li>
+  )
+}
+
+export default TodoItem
+
+
+
+/* function TodoItem({ id, title, completed, onDelete, onToggle }) {
   return (
     <li className="bg-white flex items-center justify-between px-4 py-2 rounded shadow-sm border">
       <label className="flex items-center gap-2">
@@ -21,4 +52,4 @@ function TodoItem({ id, title, completed, onDelete, onToggle }) {
   )
 }
 
-export default TodoItem
+export default TodoItem */
